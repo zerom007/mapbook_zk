@@ -11,7 +11,6 @@ users: list = [
     {'name': 'Julia', 'posts': 4, 'city': 'Zamość'},
 
 ]
-#TODO please update user list
 
 print (f'Witaj {users[0]['name']}!')
 for user in users[1:]:
