@@ -6,6 +6,8 @@ users: list = [
     {'name': 'Patryk', 'posts': 9, 'city': 'Kielce'},
 
 ]
+#TODO please update user list
+
 print (f'Witaj {users[0]['name']}!')
 for user in users[1:]:
     print(f'Twój znajomy {user['name']} z miasta {user['city']} opublikował {user['posts']} postów')
