@@ -18,7 +18,7 @@ def add_user(userlist:list)->None:
 
 def remove_user(userlist: list) -> None:
     user_to_find: str = input('Podaj imię do usuniecia:')
-    for user in users:
+    for user in userlist:
          if user['name'] == user_to_find:
             print(f'usuwam:{user}')
             userlist.remove(user)
