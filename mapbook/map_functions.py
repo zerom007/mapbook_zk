@@ -2,6 +2,7 @@ import requests
 import folium
 from bs4 import BeautifulSoup
 
+
 def single_user_map(users:list):
     for user in users:
         print(user['city'])
