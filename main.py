@@ -5,8 +5,8 @@ from cProfile import label
 from tkinter import *
 
 import requests
-import tkintermapview
 from bs4 import BeautifulSoup
+import tkintermapview
 
 
 class User:
@@ -16,12 +16,11 @@ class User:
         self.postow = postow
         self.lokalizacja = lokalizacja
         self.coords: list = User.get_coordinates(self)
-        self.marker=map_widget.set_marker(
+        self.marker = map_widget.set_marker(
             self.coords[0],
             self.coords[1],
-            text=f'{self.imie}{self.nazwisko}',
+            text=f'{self.imie} {self.nazwisko}',
         )
-
 
     def get_coordinates(self) -> list:
         url: str = f'https://pl.wikipedia.org/wiki/{self.lokalizacja}'
@@ -31,6 +30,7 @@ class User:
             float(response_html.select('.latitude')[1].text.replace(',', '.')),
             float(response_html.select('.longitude')[1].text.replace(',', '.'))
         ]
+
 
 users = [
     # User('Kasia','Kowalska','7','Warszawa'),
@@ -64,7 +64,7 @@ def add_user() -> None:
 def delete_user() -> None:
     i = listbox_lista_obiektow.index(ACTIVE)
     users[i].marker.delete()
-    users.pop()
+    users.pop(i)
     show_users()
 
 
@@ -74,7 +74,7 @@ def edit_user() -> None:
     entry_nazwisko.insert(0, users[i].nazwisko)
     entry_liczba_postow.insert(0, users[i].postow)
     entry_lokalizacja.insert(0, users[i].lokalizacja)
-    button_dodaj_obiekt.config(text='zapisz zmiany', command=lambda: update_user(i))
+    button_dodaj_obiekt.config(text='Zapisz zmiany', command=lambda: update_user(i))
 
 
 def update_user(i) -> None:
@@ -82,9 +82,10 @@ def update_user(i) -> None:
     users[i].nazwisko = entry_nazwisko.get()
     users[i].postow = entry_liczba_postow.get()
     users[i].lokalizacja = entry_lokalizacja.get()
-    users[i].coords=User.get_coordinates(users[i])
+    users[i].coords =User.get_coordinates(users[i])
     users[i].marker.delete()
     users[i].marker=map_widget.set_marker(users[i].coords[0],users[i].coords[1])
+
 
     entry_imie.delete(0, END)
     entry_nazwisko.delete(0, END)
@@ -99,11 +100,14 @@ def show_user_details() -> None:
     i = listbox_lista_obiektow.index(ACTIVE)
     label_szczegoly_imie_wartosc.config(text=users[i].imie)
     label_szczegoly_nazwisko_wartosc.config(text=users[i].nazwisko)
-    label_szczegoly_posty_wartosc.config(text=users[i].postow)
     label_szczegoly_lokalizacja_wartosc.config(text=users[i].lokalizacja)
-    map_widget.set_position(users[i].coords[0],users[i].coords[1])
-    map_widget.set_zoom(users[i].coords[1],users[i].coords[1])
+    label_szczegoly_posty_wartosc.config(text=users[i].postow)
+    map_widget.set_position(users[i].coords[0], users[i].coords[1])
     map_widget.set_zoom(12)
+
+
+
+
 
 root = Tk()
 root.geometry("800x600")
@@ -118,7 +122,6 @@ ramka_mapa = Frame(root)
 ramka_lista_obiektow.grid(row=0, column=0, padx=50)
 ramka_formularz.grid(row=0, column=1)
 ramka_szczegoly_obiektu.grid(row=1, column=0, padx=50, pady=20, columnspan=2)
-
 ramka_mapa.grid(row=2, column=0, padx=50, pady=20)
 
 # ramka_lista_obiektow
